@@ -104,9 +104,9 @@ CREATE TABLE badges (
     id_badge INT AUTO_INCREMENT PRIMARY KEY,
     id_trainer INT,
     id_battle INT,
-    badge_name VARCHAR(50), -- e.g., 'Boulder Badge'
+    badge_name VARCHAR(50), 
     earned_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20), -- e.g., 'Earned', 'Pending'
+    status VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id_trainer) REFERENCES trainers(id_trainer),
