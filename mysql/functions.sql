@@ -1,3 +1,4 @@
+-- 6 funciones reutilizables y 6 stored
 DELIMITER //
 
 -- 1. Function to authenticate trainer
