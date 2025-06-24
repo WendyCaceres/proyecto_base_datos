@@ -6,10 +6,10 @@ import json
 
 fake = Faker('es_ES')
 conn = psycopg2.connect(
-    host="localhost",
-    database="pokemon_db",
+    host="127.0.0.1",
+    database="pokedb",
     user="postgres",
-    password="wendy1105" ,
+    password="postgres" ,
     port=5432 
 
 )
@@ -98,7 +98,7 @@ pokemon_ids = []
 pokemon_names = ['Pikachu', 'Bulbasaur', 'Charmander', 'Squirtle', 'Eevee', 'Snorlax',
                  'Gengar', 'Dragonite', 'Mewtwo', 'Charizard', 'Blastoise', 'Venusaur']
 pokemon_types = ['Electric', 'Grass/Poison', 'Fire', 'Water', 'Normal', 'Ghost/Poison',
-                 'Dragon/Flying', 'Psychic', 'Fire/Flying', 'Water', 'Grass/Poison']
+                 'Dragon/Flying', 'Psychic', 'Fire/Flying', 'Water', 'Grass/Poison','Fire/Flying']
 for i in range(NUM_POKEMON):
     if i % 50 == 0:
         print(f"  Pokémon: {i}/{NUM_POKEMON}")

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  pokemons:
+    image: postgres:15
+    container_name: pokemons
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: pokedb
+    volumes:
+      - pokedb_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mysql:
+    image: mysql:8
+    container_name: mysql_pokemon
+    environment:
+      MYSQL_ROOT_PASSWORD: wendy0511
+      MYSQL_DATABASE: pokemon_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pokedb_data:
+  mysql_data:
