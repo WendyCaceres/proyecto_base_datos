@@ -1,0 +1,11 @@
+db.createCollection("trainers")
+db.createCollection("pokemons")
+db.createCollection("battles")
+db.createCollection("moves")
+db.createCollection("badges")
+db.createCollection("sponsors")
+db.createCollection("items")
+db.createCollection("logs")
+db.createCollection("transactions")
+db.createCollection("comments")
+

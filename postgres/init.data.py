@@ -7,9 +7,9 @@ import json
 fake = Faker('es_ES')
 conn = psycopg2.connect(
     host="127.0.0.1",
-    database="pokedb",
+    database="pokemon_db",
     user="postgres",
-    password="postgres" ,
+    password="masterpass" ,
     port=5432 
 
 )

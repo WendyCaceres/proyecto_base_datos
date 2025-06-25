@@ -22,6 +22,27 @@ cd proyecto-base-datos
 docker-compose up -d
 ```
 
+4.**Llenado de datos**
+MySQL
+```bash
+cd .\mysql\
+cd .\scripts\
+node .\restoreDb.js
+```
+
+Postgres
+```bash
+cd .\postgres\
+cd .\scripts\
+node .\restoreDb.js
+```
+
+MongoDB
+```bash
+cd .\mongodb\
+node .\mongoSeed.js
+```
+
 4. **Inicializar base de datos**
 ```bash
 ./init_data.bat
