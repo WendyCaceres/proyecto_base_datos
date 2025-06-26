@@ -174,6 +174,72 @@ BEGIN
 END;
 $$;
 
+-- 7. actualizar el saldo de un entrenador
+CREATE OR REPLACE PROCEDURE sp_actualizar_saldo_entrenador(
+    IN p_id_trainer INT,
+    IN p_nuevo_saldo NUMERIC
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    BEGIN
+        IF p_nuevo_saldo < 0 THEN
+            RAISE EXCEPTION 'El saldo de PokéCoins no puede ser negativo.';
+        END IF;
+        UPDATE trainers
+        SET poke_coins = p_nuevo_saldo,
+            updated_at = NOW()
+        WHERE id_trainer = p_id_trainer;
+        IF NOT FOUND THEN
+            RAISE EXCEPTION 'No se encontró entrenador con ID %', p_id_trainer;
+        END IF;
+        INSERT INTO transactions (id_trainer, transaction_type, amount, status)
+        VALUES (p_id_trainer, 'Update', p_nuevo_saldo - (SELECT poke_coins FROM trainers WHERE id_trainer = p_id_trainer), 'Completed');
+
+        COMMIT;
+        RAISE NOTICE 'Saldo de PokéCoins actualizado con éxito para el entrenador %', p_id_trainer;
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE NOTICE 'Error al actualizar saldo: %', SQLERRM;
+            ROLLBACK;
+            RAISE EXCEPTION 'Fallo al actualizar saldo de PokéCoins';
+    END;
+END;
+$$;
+
+-- 8. Actualizar el resultado de una batalla
+CREATE OR REPLACE PROCEDURE sp_actualizar_resultado_batalla(
+    IN p_id_battle INT,
+    IN p_resultado JSONB
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    BEGIN
+        IF NOT EXISTS (SELECT 1 FROM battles WHERE id_battle = p_id_battle) THEN
+            RAISE EXCEPTION 'No se encontró batalla con ID %', p_id_battle;
+        END IF;
+        UPDATE battles
+        SET result = p_resultado,
+            status = 'Completed',
+            updated_at = NOW()
+        WHERE id_battle = p_id_battle;
+        INSERT INTO logs_json (log_type, data, created_at)
+        VALUES ('BATTLE_RESULT_UPDATED', 
+                jsonb_build_object('id_battle', p_id_battle, 'resultado', p_resultado),
+                NOW());
+
+        COMMIT;
+        RAISE NOTICE 'Resultado de la batalla % actualizado con éxito', p_id_battle;
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE NOTICE 'Error al actualizar resultado de batalla: %', SQLERRM;
+            ROLLBACK;
+            RAISE EXCEPTION 'Fallo al actualizar resultado de batalla';
+    END;
+END;
+$$;
+
 -- Test
 CALL sp_insertar_entrenador('Ash Ketchum', 'ash@example.com', 'pikachu123', 1000.00);
 CALL sp_eliminar_insignia(1);
@@ -181,3 +247,5 @@ CALL sp_registrar_batalla('Elite Four Battle', '2025-12-01 15:00:00', 'Tournamen
 CALL sp_cancelar_batalla(1);
 CALL sp_retirar_poke_coins(1, 50.00);
 CALL sp_registrar_transaccion(1, 'Deposit', 100.00);
+CALL sp_actualizar_saldo_entrenador(1, 1500.00);
+CALL sp_actualizar_resultado_batalla(1, jsonb_build_object('winner', 'Ash Ketchum', 'score', '3-2'));
