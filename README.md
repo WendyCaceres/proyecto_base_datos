@@ -43,6 +43,12 @@ cd .\mongodb\
 node .\mongoSeed.js
 ```
 
+ETL 
+```bash
+docker exec -it etl_service bash
+node etl_script.js
+```
+
 4. **Inicializar base de datos**
 ```bash
 ./init_data.bat

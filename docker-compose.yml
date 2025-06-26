@@ -76,6 +76,20 @@ services:
     container_name: pokemon_redis
     ports: ["6379:6379"]
 
+  etl_service:
+    image: node:20
+    container_name: etl_service
+    working_dir: /etl
+    volumes:
+      - ./etl:/etl 
+    command: ["tail", "-f", "/dev/null"]  
+    depends_on:
+      - postgres_master
+      - mysql_pokemon
+      - mongo
+    networks:
+      - default
+
 volumes:
   pokedb_data:
   mysql_data:
