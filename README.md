@@ -1,4 +1,12 @@
-# proyecto_base_datos
+# 🏆 PokeData League
+
+Sistema de base de datos avanzado para gestionar la Liga Pokémon. Este proyecto crea un entorno competitivo donde los entrenadores libran batallas épicas, coleccionan insignias y gestionan PokéCoins para alcanzar la cima. ¡Prepárate para el desafío definitivo!
+
+## 📚 Documentación
+
+### 🏗️ Arquitectura
+- Arquitectura basada en PostgreSQL con particiones para escalabilidad.
+- Diseño relacional optimizado para soportar hasta 30,000 transacciones, reflejando la intensidad de un torneo Pokémon global
 
 ## ⚙️ Tecnologías
 
